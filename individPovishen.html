@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #calculator {
+            border: 1px solid #ccc;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .input-field, .output-field {
+            width: 100px;
+            padding: 10px;
+            margin: 10px 0;
+            text-align: center;
+            font-size: 1.2em;
+        }
+        .output-field {
+            background-color: #fff;
+        }
+        .keyboard button {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            font-size: 1.2em;
+        }
+        .red-bg {
+            background-color: red;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="calculator">
+        <input type="text" id="number1" class="input-field" readonly>
+        <input type="text" id="number2" class="input-field" readonly>
+        <select id="operator" class="input-field">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/option>
+        </select>
+        <button onclick="calculate()">Посчитать</button>
+        <div id="result" class="output-field"></div>
+        <div class="keyboard">
+            <button onclick="appendNumber(0)">0</button>
+            <button onclick="appendNumber(1)">1</button>
+            <button onclick="appendNumber(2)">2</button>
+            <button onclick="appendNumber(3)">3</button>
+            <button onclick="appendNumber(4)">4</button>
+            <button onclick="appendNumber(5)">5</button>
+            <button onclick="appendNumber(6)">6</button>
+            <button onclick="appendNumber(7)">7</button>
+            <button onclick="appendNumber(8)">8</button>
+            <button onclick="appendNumber(9)">9</button>
+            <button onclick="deleteNumber()">Удалить</button>
+        </div>
+    </div>
+
+    <script>
+        let currentInput = 'number1';
+
+        function appendNumber(number) {
+            const inputField = document.getElementById(currentInput);
+            inputField.value += number;
+        }
+
+        function deleteNumber() {
+            const inputField = document.getElementById(currentInput);
+            inputField.value = inputField.value.slice(0, -1);
+        }
+
+        document.getElementById('number1').addEventListener('click', () => currentInput = 'number1');
+        document.getElementById('number2').addEventListener('click', () => currentInput = 'number2');
+
+        function calculate() {
+            const num1 = parseFloat(document.getElementById('number1').value);
+            const num2 = parseFloat(document.getElementById('number2').value);
+            const operator = document.getElementById('operator').value;
+            let result;
+
+            switch (operator) {
+                case '+':
+                    result = num1 + num2;
+                    break;
+                case '-':
+                    result = num1 - num2;
+                    break;
+                case '*':
+                    result = num1 * num2;
+                    break;
+                case '/':
+                    result = num1 / num2;
+                    break;
+            }
+
+            const resultField = document.getElementById('result');
+            if (result > 15) {
+                resultField.textContent = 'число>15';
+                resultField.classList.add('red-bg');
+            } else {
+                resultField.textContent = result;
+                resultField.classList.remove('red-bg');
+            }
+        }
+    </script>
+</body>
+</html>
