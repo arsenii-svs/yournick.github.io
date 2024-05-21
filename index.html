@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Визитная карточка</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 20px;
+    }
+
+    #form-container, #card-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 2em;
+      color: #333;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      font-size: 1.5em;
+      color: #555;
+    }
+
+    .last-name {
+      color: #800000;  /* Dark red for last name */
+    }
+
+    label {
+      font-size: 1em;
+      color: #666;
+      margin-top: 10px;
+      display: block;
+    }
+
+    input, select, button {
+      display: block;
+      width: 100%;
+      margin-top: 5px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+
+    button {
+      margin-top: 20px;
+      color: #fff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .random-color-button {
+      background-color: #28a745;
+    }
+
+    .random-color-button:hover {
+      background-color: #218838;
+    }
+
+    #card {
+      text-align: center;
+      background-color: var(--bg-color, #fff);
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    #card-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+    }
+
+    #card-name {  /* Green for name */
+      font-size: 20px;
+      margin-top: 10px;
+      color: #2e8b57;
+    }
+
+    #card-age, #card-gender {  /* Blue for age and gender */
+      font-size: 20px;
+      margin-top: 10px;
+      color: #3498db;
+    }
+  </style>
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+      const userForm = document.getElementById('user-form');
+      const cardContainer = document.getElementById('card-container');
+      const cardAvatar = document.getElementById('card-avatar');
+      const cardName = document.getElementById('card-name');
+      const cardAge = document.getElementById('card-age');
+      const cardGender = document.getElementById('card-gender');
+
+      userForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        if (confirm('Вы точно хотите заполнить форму?')) {
+          const firstName = document.getElementById('first-name').value;
+          const lastName = document.getElementById('last-name').value;
+          const age = document.getElementById('age').value;
+          const gender = document.getElementById('gender').value;
+
+          cardAvatar.src = 'https://get.wallhere.com/photo/illustration-simple-background-anime-anime-girls-glasses-cartoon-meganekko-Shirobako-Imai-Midori-sketch-mangaka-114750.jpg';
+          cardName.textContent = `${firstName} ${lastName}`;
+          cardAge.textContent = `Возраст: ${age}`;
+          cardGender.textContent = `Пол: ${gender}`;
+
+          // Hide the form and show the card
+          userForm.style.display = 'none';
+          cardContainer.style.display = 'block';
+        } else {
+          // Reset the form
+          userForm.reset();
+        }
+      });
+
+      // Add validation for age input
+      const ageInput = document.getElementById('age');
+      ageInput.addEventListener('input', function() {
+        if (ageInput.value < 0) {
+          alert('Возраст должен быть неотрицательным числом.');
+          ageInput.value = '';
+        }
+      });
+
+      // Add input validation for text fields
+      const nameInputs = document.querySelectorAll('#first-name, #last-name');
+      nameInputs.forEach(function(input) {
+        input.addEventListener('input', function() {
+          input.value = input.value.replace(/[^a-zA-ZА-Яа-яЁё\s]/g, '');
+        });
+      });
+
+      // Add edit functionality
+      cardContainer.addEventListener('dblclick', function() {
+        userForm.style.display = 'block';
+        cardContainer.style.display = 'none';
+      });
+    });
+
+    function changeBackgroundColor() {
+      var randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
+      document.body.style.backgroundColor = randomColor;
+    }
+  </script>
+</head>
+<body>
+  <div id="form-container">
+    <h1>Заполнить анкету</h1>
+    <form id="user-form">
+      <label for="first-name">Имя:</label>
+      <input type="text" id="first-name" name="first-name" required>
+
+      <label for="last-name">Фамилия:</label>
+      <input type="text" id="last-name" name="last-name" required>
+
+      <label for="age">Возраст:</label>
+      <input type="number" id="age" name="age" min="0" required>
+
+      <label for="gender">Пол:</label>
+      <select id="gender" name="gender" required>
+        <option value="М">М</option>
+        <option value="Ж">Ж</option>
+      </select>
+
+      <button type="submit">Отправить</button>
+      <button type="button" class="random-color-button" onclick="changeBackgroundColor()">Изменить цвет фона</button>
+    </form>
+  </div>
+
+  <div id="card-container" style="display:none;">
+    <h1>Ваша визитная карточка</h1>
+    <div id="card">
+      <img id="card-avatar" src="https://get.wallhere.com/photo/illustration-simple-background-anime-anime-girls-glasses-cartoon-meganekko-Shirobako-Imai-Midori-sketch-mangaka-114750.jpg" alt="Аватар">
+      <p id="card-name"></p>
+      <p id="card-age"></p>
+      <p id="card-gender"></p>
+    </div>
+  </div>
+</body>
+<head>
+    <title>Нахождение максимума двух чисел</title>
+    <script type="text/javascript">
+        function max(a, b) {
+            return (a > b) ? a : b;
+        }
+
+        function displayMax() {
+            var num1 = parseFloat(document.getElementById('num1').value);
+            var num2 = parseFloat(document.getElementById('num2').value);
+            var result = max(num1, num2);
+            document.getElementById('result').innerText = 'Максимум: ' + result;
+        }
+    </script>
+</head>
+<body>
+    <h2>Введите два числа для нахождения максимума:</h2>
+    <label for="num1">Число 1:</label>
+    <input type="number" id="num1" name="num1">
+    <br>
+    <label for="num2">Число 2:</label>
+    <input type="number" id="num2" name="num2">
+    <br><br>
+    <button onclick="displayMax()">Найти максимум</button>
+    <br><br>
+    <div id="result"></div>
+</body>
+</html>
